@@ -22,6 +22,8 @@ namespace FunctionApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             [SignalRConnectionInfo(HubName = "chat")] SignalRConnectionInfo connectionInfo)
         {
+            var url = System.Environment.GetEnvironmentVariable("AkamaiUrl", EnvironmentVariableTarget.Process);
+            connectionInfo.Url = url;
             return connectionInfo;
         }
 
