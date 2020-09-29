@@ -17,13 +17,16 @@ namespace FunctionApp
 {
     public static class Functions
     {
+        // sample for replacing the host of Url property in negotiation response
+        // you can replace any part of the Url in the same way
         [FunctionName("negotiate")]
         public static SignalRConnectionInfo GetSignalRInfo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req,
             [SignalRConnectionInfo(HubName = "chat")] SignalRConnectionInfo connectionInfo)
         {
-            var url = System.Environment.GetEnvironmentVariable("AkamaiUrl", EnvironmentVariableTarget.Process);
-            connectionInfo.Url = url;
+            // get a specific value by key in function app setting (local.settings.json for local development)
+            var akamaiEndpoint = System.Environment.GetEnvironmentVariable("AkamaiHost", EnvironmentVariableTarget.Process);
+            connectionInfo.Url = ReplaceHost(connectionInfo.Url, akamaiEndpoint);
             return connectionInfo;
         }
 
@@ -38,6 +41,14 @@ namespace FunctionApp
                     Target = "newMessage",
                     Arguments = new[] { message }
                 });
+        }
+
+        // sample only, you can replace any part you want
+        public static string ReplaceHost(string original, string newHostName)
+        {
+            var builder = new UriBuilder(original);
+            builder.Host = newHostName;
+            return builder.Uri.ToString();
         }
     }
 }

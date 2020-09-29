@@ -3,7 +3,7 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "AzureSignalRConnectionString": "<signalr-connection-string>",
-    "AkamaiUrl": "http://localhost"
+    "AkamaiHost": "AkamaiHost"
   },
   "Host": {
     "LocalHttpPort": 7071,
